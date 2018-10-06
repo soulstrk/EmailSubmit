@@ -1,6 +1,7 @@
 package com.soul.login.service;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 
 import javax.mail.MessagingException;
 
@@ -9,8 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.soul.login.dao.MemberDao;
-import com.soul.login.util.MailHandler;
-import com.soul.login.util.TempKey;
+import com.soul.login.util.mail.MailService;
+import com.soul.login.util.mail.TempKey;
 import com.soul.login.vo.MemberVo;
 
 @Service
@@ -24,18 +25,8 @@ public class MemberService {
 		dao.memberInsert(vo);
 		String authKey = new TempKey().getKey(50, false);
 		dao.authKeyInsert(vo.getEmail(), authKey);
-		MailHandler sendMail = new MailHandler(mailSender);
-		sendMail.setSubject("[이메일 인증]");
-		sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-		.append("<a href='http://localhost:9090/login/emailConfirm?key=")
-		.append(authKey)
-		.append("&email=")
-		.append(vo.getEmail())
-		.append("' target='_blank'>이메일 인증 확인!</a>")
-		.toString());
-		sendMail.setFrom("soulstrk1234@gmail.com", "재용");
-		sendMail.setTo(vo.getEmail());
-		sendMail.send();
+		MailService ms = new MailService();
+		ms.drawSendMail(mailSender, authKey, vo.getEmail());
 	}
 	
 	public int emailConfirm(String email) {
@@ -43,5 +34,17 @@ public class MemberService {
 		return n;
 	}
 	
-	
+	public MemberVo loginCheck(String id, String pwd) {
+		MemberVo vo = dao.loginCheck(id, pwd);
+		return vo;
+	}
+
+	public void keepLogin(String id, String sessionId, Date next) {
+        dao.keepLogin(id, sessionId, next);
+    }
+ 
+    public MemberVo checkUserWithSessionKey(String sessionId) {
+        return dao.checkUserWithSessionKey(sessionId);
+    }
+
 }

@@ -21,7 +21,15 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/memberPage/**"/>
+			<beans:ref bean="authenticationInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
 	<context:component-scan base-package="com.soul.login.controller" />
+	<context:component-scan base-package="com.soul.login.interceptor" />
 	
 	
 	

@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${check }</h1>
-	<h2>인증이완료 되었습니다!</h2>
-	<a href="${pageContext.request.contextPath }/"></a>
+	<h1>결제페이지</h1>
+	ㅎㅇㅎㅇ
 </body>
 </html>

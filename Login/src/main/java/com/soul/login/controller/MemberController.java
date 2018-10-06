@@ -23,6 +23,7 @@ public class MemberController {
 			model.addAttribute("msg","fail");
 			System.out.println(e.getMessage());
 		}
+		model.addAttribute("email",vo.getEmail());
 		return "/Members/result";
 	}
 	

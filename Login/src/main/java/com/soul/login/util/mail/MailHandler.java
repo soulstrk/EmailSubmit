@@ -1,4 +1,4 @@
-package com.soul.login.util;
+package com.soul.login.util.mail;
 
 import java.io.UnsupportedEncodingException;
 

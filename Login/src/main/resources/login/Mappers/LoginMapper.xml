@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="login.Mappers.LoginMapper">
 	<insert id="memberInsert" parameterType="com.soul.login.vo.MemberVo">
-		insert into member values(#{email}, #{id}, #{pwd}, 0)
+		insert into member values(#{email}, #{id}, #{pwd}, 0, 'default', sysdate)
 	</insert>
 	
 	<insert id="authKeyInsert" parameterType="map">
@@ -14,4 +14,19 @@
 	<update id="memAuth" parameterType="string">
 		update member set certification = 1 where (select count(*) from memberAuth where email = #{value}) > 0
 	</update>
+	
+	<select id="loginCheck" parameterType="map" resultType="com.soul.login.vo.MemberVo">
+	  	select * from member where id = #{id} and pwd = #{pwd}
+	</select>
+	
+	<update id="keepLogin">
+		update member set sessionkey = #{sessionId}, sessionlimit = #{next} where id = #{id}
+	</update>
+	
+	<!-- 유효기간이 남아 있으면서 해당 sessionId를 가지는 사용자 정보를 꺼내오는 부분 -->
+	<select id="checkUserWithSessionKey" resultType="com.soul.login.vo.MemberVo">
+        select * from member where sessionKey = #{sessionId} and sessionLimit > (select localtimestamp from dual)
+    </select>
+
+
 </mapper>
