@@ -51,4 +51,8 @@ public class MemberDao {
 	public MemberVo checkUserWithSessionKey(String sessionId) {
 		return session.selectOne(NAMESPACE+"checkUserWithSessionKey", sessionId);
 	}
+	
+	public int checkCertification(String id) {
+		return session.selectOne(NAMESPACE+"checkCertification", id);
+	}
 }

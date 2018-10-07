@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,5 +15,7 @@
 	<input type="checkbox" name="auto" value="in" /><br>
 	<input type="submit" value="로그인" />
 	</form>
+	<a href="<c:url value='/naverlogin'/>">네이버로그인</a>
+	<a href="<c:url value='/callback'/>">콜백이머징</a>
 </body>
 </html>

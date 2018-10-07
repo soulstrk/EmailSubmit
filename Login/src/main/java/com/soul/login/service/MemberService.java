@@ -46,5 +46,9 @@ public class MemberService {
     public MemberVo checkUserWithSessionKey(String sessionId) {
         return dao.checkUserWithSessionKey(sessionId);
     }
+    
+    public int checkCertification(String id) {
+    	return dao.checkCertification(id);
+    }
 
 }

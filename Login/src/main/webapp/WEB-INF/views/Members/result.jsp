@@ -15,7 +15,7 @@
 	<c:if test="${msg == 'success'}">
 		<h1>가입성공 !!</h1>
 		<h3>이메일 인증후 로그인 가능합니다.</h3>
-		<a href="">로그인 페이지</a>
+		<a href="<c:url value='/login'/>">로그인 페이지</a>
 	</c:if>
 </body>
 </html>

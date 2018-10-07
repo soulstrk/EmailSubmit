@@ -28,5 +28,7 @@
         select * from member where sessionKey = #{sessionId} and sessionLimit > (select localtimestamp from dual)
     </select>
 
-
+	<select id="checkCertification" parameterType="string" resultType="int">
+		select certification from member where id = #{value}
+	</select>
 </mapper>

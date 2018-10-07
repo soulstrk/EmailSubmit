@@ -30,6 +30,7 @@ public class MemberController {
 	/*
 	 * 클라이언트 본인에게 온 이메일을 인증시에 수행하는 매핑
 	 */
+	
 	 @RequestMapping(value="/emailConfirm", method=RequestMethod.GET)
 	    public String emailConfirm(String key,String email, Model model){
 	        int n = service.emailConfirm(email);

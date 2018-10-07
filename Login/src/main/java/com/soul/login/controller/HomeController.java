@@ -42,4 +42,14 @@ public class HomeController {
 		return "/memberPage/payment";
 	}
 	
+	@RequestMapping(value = "/naverlogin", method = RequestMethod.GET)
+	public String naverlogin() {
+		return "naverlogin";
+	}
+	
+	@RequestMapping(value = "/callback", method = RequestMethod.GET)
+	public String navLogin() {
+		return "callback";
+	}
+	
 }

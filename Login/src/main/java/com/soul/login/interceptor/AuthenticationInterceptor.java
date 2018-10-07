@@ -21,12 +21,18 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		Object obj = request.getSession().getAttribute("login");
+		MemberVo obj = (MemberVo)request.getSession().getAttribute("login");
+		System.out.println("xxxxxxxxxxxxxxxxx");
 		if(obj == null) {
 			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
 			if(loginCookie != null) {
 				String sessionId = loginCookie.getValue();
 				MemberVo vo = service.checkUserWithSessionKey(sessionId);
+				int n = service.checkCertification(vo.getId());
+				if(n==0) { 
+					response.sendRedirect("/login");
+					return false;
+					}
 				
 				if(vo != null) {
 					request.getSession().setAttribute("login", vo);
@@ -36,7 +42,14 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect("/login");
 			return false;
 		}else{
-			return true;
+			int n = service.checkCertification(obj.getId());
+			System.out.println("n°ª="+  n);
+			if(n>0) {
+				return true;
+			}else {
+				response.sendRedirect("/login");
+				return false;
+			}
 		}
 	}
 
