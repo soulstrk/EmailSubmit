@@ -1,8 +1,10 @@
 package com.soul.login.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
@@ -22,6 +24,7 @@ public class HomeController {
 		return "/Members/join";
 	}
 	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "/Members/login";
@@ -29,7 +32,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/memberPage/boardList", method = RequestMethod.GET)
 	public String boardList() {
-		return "/memberPage/boardList";
+		return "boardList";
 	}
 	
 	@RequestMapping(value = "/memberPage/game", method = RequestMethod.GET)
@@ -48,7 +51,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
-	public String navLogin() {
+	public String navLogin(String code, String state, Model model) {
+		model.addAttribute("code",code);
+		model.addAttribute("state",state);
 		return "callback";
 	}
 	
