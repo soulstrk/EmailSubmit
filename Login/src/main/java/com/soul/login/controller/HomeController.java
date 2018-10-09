@@ -11,7 +11,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
-		return "index";
+		return "naverlogin";
 	}
 	
 	/*
@@ -54,6 +54,11 @@ public class HomeController {
 	public String navLogin(String code, String state, Model model) {
 		model.addAttribute("code",code);
 		model.addAttribute("state",state);
+		return "callback";
+	}
+	
+	@RequestMapping(value = "/test1", method = RequestMethod.GET)
+	public String test1() {
 		return "callback";
 	}
 	
