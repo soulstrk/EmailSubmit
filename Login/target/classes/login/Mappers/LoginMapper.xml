@@ -31,4 +31,16 @@
 	<select id="checkCertification" parameterType="string" resultType="int">
 		select certification from member where id = #{value}
 	</select>
+	
+	<!-- 네이버 로그인 아이디 처리 -->
+	<insert id="naverInsert" parameterType="map">
+		insert into member values (#{email},#{id},0000, 2, 'default', sysdate)
+	</insert>
+	
+	<!-- 네이버 아이디 등록 유무 체크 -->
+	<select id="isNaverId" parameterType="string" resultType="com.soul.login.vo.MemberVo">
+		select * from member where id = #{value}
+	</select>
+	
+	
 </mapper>

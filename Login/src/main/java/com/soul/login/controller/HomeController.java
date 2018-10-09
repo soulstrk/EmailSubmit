@@ -32,7 +32,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/memberPage/boardList", method = RequestMethod.GET)
 	public String boardList() {
-		return "boardList";
+		return "/memberPage/boardList";
 	}
 	
 	@RequestMapping(value = "/memberPage/game", method = RequestMethod.GET)

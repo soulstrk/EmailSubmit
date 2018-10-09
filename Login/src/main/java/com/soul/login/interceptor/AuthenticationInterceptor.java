@@ -22,7 +22,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		MemberVo obj = (MemberVo)request.getSession().getAttribute("login");
-		System.out.println("xxxxxxxxxxxxxxxxx");
 		if(obj == null) {
 			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
 			if(loginCookie != null) {

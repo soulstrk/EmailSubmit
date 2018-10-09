@@ -40,6 +40,9 @@ public class LoginController {
 		}
 		MemberVo vo = service.loginCheck(id, pwd);
 		if(vo != null) {
+			if(vo.getAuthKey() == 2) {
+				return "index";
+			}
 			session.setAttribute("login", vo);
 			if(auto != null) {
 				Cookie cookie = new Cookie("loginCookie", session.getId());
@@ -77,7 +80,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/naverlogin1")
-	public void naverlogin(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+	public String naverlogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws UnsupportedEncodingException {
 		String clientId = "cXnG4ZMsAU0UT9_rvvIe";//애플리케이션 클라이언트 아이디값";
 	    String clientSecret = "lwPvvFgpsq";//애플리케이션 클라이언트 시크릿값";
 	    String code = request.getParameter("code");
@@ -90,14 +93,12 @@ public class LoginController {
 	    apiURL += "&redirect_uri=" + redirectURI;
 	    apiURL += "&code=" + code;
 	    apiURL += "&state=" + state;
-	    System.out.println("apiURL="+apiURL);
 	    try {
 	      URL url = new URL(apiURL);
 	      HttpURLConnection con = (HttpURLConnection)url.openConnection();
 	      con.setRequestMethod("GET");
 	      int responseCode = con.getResponseCode();
 	      BufferedReader br;
-	      System.out.print("responseCode="+responseCode);
 	      if(responseCode==200) { // 정상 호출
 	        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	      } else {  // 에러 발생
@@ -113,11 +114,10 @@ public class LoginController {
 	        /* out.println(res.toString()); */
 	        JSONParser parser = new JSONParser();
 	        JSONObject obj = (JSONObject)parser.parse(res.toString());
-	        String test = (String)obj.get("access_token");
+	        String token = (String)obj.get("access_token");
 	        //personalInfo 가져옴
-	        System.out.println("token"+test);
-	        String header = "Bearer " + test; // Bearer 다음에 공백 추가
-	        System.out.println("bbbbbbbbbbbbbbbbbb");
+	        System.out.println("token"+token);
+	        String header = "Bearer " + token; // Bearer 다음에 공백 추가
 	        try {
 	            apiURL = "https://openapi.naver.com/v1/nid/me";
 	            URL url1 = new URL(apiURL);
@@ -138,18 +138,26 @@ public class LoginController {
 	            }
 	            JSONParser parser1 = new JSONParser();
 	            JSONObject obj1 = (JSONObject)parser1.parse(response1.toString());
+	            JSONObject obj2 = (JSONObject)obj1.get("response");
+	            String id = (String)obj2.get("id");
+	            String email = (String)obj2.get("email");
+	            MemberVo vo = service.isNaverId(id);
+	            session.setAttribute("login", vo);
+	            if(vo == null) { // 처음 접속하는 존재하지 않는 아이디일 경우 DB에 insert
+	            	service.naverInsert(id, email);
+	            }
 	            br1.close();
-	            PrintWriter pw = response.getWriter();
-	            System.out.println(obj1.toString());
-	            pw.println(obj1.toString());
-	            pw.close();
+	            return "index";
 	        } catch (Exception e) {
 	            System.out.println(e);
+	            return "index";
 	        }
 	      }
 	    } catch (Exception e) {
 	      System.out.println(e);
+	      return "index";
 	    }
+	    return "index";
 	}
 	
 }

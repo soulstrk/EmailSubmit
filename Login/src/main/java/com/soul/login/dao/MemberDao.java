@@ -55,4 +55,15 @@ public class MemberDao {
 	public int checkCertification(String id) {
 		return session.selectOne(NAMESPACE+"checkCertification", id);
 	}
+	
+	public void naverInsert(String id, String email) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("email", email);
+		session.insert(NAMESPACE+"naverInsert", map);
+	}
+	
+	public MemberVo isNaverId(String id) {
+		return session.selectOne(NAMESPACE+"isNaverId", id);
+	}
 }

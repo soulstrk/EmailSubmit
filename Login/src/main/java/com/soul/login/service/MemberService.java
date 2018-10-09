@@ -50,5 +50,12 @@ public class MemberService {
     public int checkCertification(String id) {
     	return dao.checkCertification(id);
     }
+    
+    public void naverInsert(String id, String email) {
+    	dao.naverInsert(id, email);
+    }
 
+    public MemberVo isNaverId(String id) {
+		return dao.isNaverId(id);
+	}
 }
